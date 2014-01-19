@@ -1,0 +1,6 @@
+<fieldset>
+  	<div class="form-group">
+		<%= select_tag :role_ids, options_from_collection_for_select(Role.all, "id", "name"), :prompt => "Nitijedna", :class => "form-control role", :style=>"width:50%; float:left;" %>
+		<button class="btn btn-danger remove_fields" style="margin-left:8px;"><i class="fa fa-trash"></i> Ukloni</button>
+	</div>
+</fieldset>

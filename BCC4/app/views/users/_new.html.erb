@@ -1,0 +1,63 @@
+<%= form_for user do |f| %>
+
+	<div class="row">
+		<div class="page new settings col-md-6">
+			<div class="form-group">
+				<label for="page_title">Ime</label>
+				<%= f.text_field :nameFirst, 
+					:placeholder => "Ivan", 
+					:class => "form-control" %>
+			</div>
+			<div class="form-group">
+				<label for="page_slug">Prezime</label>
+				<%= f.text_field :nameLast, 
+					:placeholder => "Horvat", 
+					:class => "form-control" %>
+			</div>
+			<div class="form-group">
+				<label for="page_tags">Email</label>
+				<%= f.text_field :contactEmail, 
+					:placeholder => "email@host.com", 
+					:class => "form-control" %>
+			</div>
+			<% if currentUser != nil && currentUser.canEdit("Users") %>
+				<div class="form-group">
+					<label for="page_tags" id="roleAnchor">Uloge</label>
+					<% if user.isDeleteable != false %>
+						<div class="roleSelect">
+							<%= f.collection_check_boxes :role_ids, Role.all, :id, :name, :class=>"form-control" %>
+						</div>
+					<% else %>
+						<br> Neizmjenjivo
+					<% end %>
+					
+				</div>
+			<% end %>
+		</div>
+		<div class="col-md-5">
+			<div class="form-group">
+				<label for="page_title">Korisničko ime</label>
+				<% if user.isDeleteable != false %>
+					<%= f.text_field :loginUsername, 
+						:placeholder => "Korisničko ime", 
+						:class => "form-control" %>
+				<% else %>
+					<br> Neizmjenjivo
+				<% end %>
+			</div>
+			<div class="form-group">
+				<label for="page_title">Zaporka</label>
+				<%= f.password_field :password, 
+					:class => "form-control" %>
+				<p class="help-block">Napomena: Ako NE želite mjenjati zaporku ostavite ovo polje prazno.</p>
+			</div>
+			<div class="form-group">
+				<label for="page_title">Potvrda Zaporke</label>
+				<%= f.password_field :password_confirmation, 
+					:class => "form-control" %>
+				<p class="help-block">Ponovite zaporku da budemo sigurni da ste unjeli točnu.</p>
+			</div>	
+		</div>
+	</div>
+
+<% end %>

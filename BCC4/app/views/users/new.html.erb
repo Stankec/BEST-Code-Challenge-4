@@ -1,0 +1,32 @@
+<div class="container">
+	<div class="row">
+		<h2>Novi Korisnik</h2>
+	</div>
+	<div class="row">
+		<%= render :partial => "new", :locals => {:user => @user } %>
+	</div>
+	<div class="row">
+		<div>
+			<%= link_to '<i class="fa fa-check fa fa-white"></i> Save'.html_safe, "#", 
+				:class => 'btn btn-primary', 
+				:onclick => '$(".new_user").submit()' %>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	jQuery(function() {
+		$('form').on('click', '.remove_fields', function(event) {
+			  $(this).prev('input[type=hidden]').val('1');
+			  $(this).closest('fieldset').hide();
+			  return event.preventDefault();
+		});
+		return $('form').on('click', '.add_fields', function(event) {
+			  var regexp, time;
+			  time = new Date().getTime();
+			  regexp = new RegExp($(this).data('id'), 'g');
+			  $(this).before($(this).data('fields').replace(regexp, time));
+			  return event.preventDefault();
+		});
+	});
+</script>
