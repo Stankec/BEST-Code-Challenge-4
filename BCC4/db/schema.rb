@@ -11,16 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140119083138) do
+ActiveRecord::Schema.define(version: 20140119103520) do
+
+  create_table "movies", force: true do |t|
+    t.string   "title"
+    t.integer  "year"
+    t.date     "released"
+    t.integer  "runtime"
+    t.text     "plot"
+    t.text     "awards"
+    t.string   "poster"
+    t.boolean  "isHidden"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "nameFirst"
     t.string   "nameLast"
     t.string   "nameNickname"
-    t.boolean  "useNickname"
     t.string   "loginUsername"
-    t.string   "password"
+    t.string   "loginPasswordSalt"
+    t.string   "loginPasswordHash"
+    t.string   "loginAuthToken"
     t.string   "contactEmail"
+    t.boolean  "useNickname"
+    t.boolean  "isAdmin"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

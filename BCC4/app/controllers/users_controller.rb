@@ -15,6 +15,10 @@ class UsersController < ApplicationController
   	def edit
       	@user = User.find_by id: params[:id]
   	end # edit
+
+    def watchedMovies
+        @user = User.find_by id: params[:id]
+    end # edit
 	
   	##################
   	### Rails CRUD ###

@@ -18,7 +18,6 @@ class SessionsController < ApplicationController
     		else
     			cookies[:loginAuthToken] = @user.loginAuthToken
     		end
-    		@user.loginLast = Time.now
     		@user.save
     		redirect_to root_path
     	else

@@ -37,13 +37,9 @@
 		<div class="col-md-5">
 			<div class="form-group">
 				<label for="page_title">Korisničko ime</label>
-				<% if user.isDeleteable != false %>
-					<%= f.text_field :loginUsername, 
-						:placeholder => "Korisničko ime", 
-						:class => "form-control" %>
-				<% else %>
-					<br> Neizmjenjivo
-				<% end %>
+				<%= f.text_field :loginUsername, 
+					:placeholder => "Korisničko ime", 
+					:class => "form-control" %>
 			</div>
 			<div class="form-group">
 				<label for="page_title">Zaporka</label>

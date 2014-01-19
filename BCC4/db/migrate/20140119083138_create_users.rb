@@ -4,10 +4,13 @@ class CreateUsers < ActiveRecord::Migration
       t.string :nameFirst
       t.string :nameLast
       t.string :nameNickname
-      t.boolean :useNickname
       t.string :loginUsername
-      t.string :password
+      t.string :loginPasswordSalt
+      t.string :loginPasswordHash
+      t.string :loginAuthToken
       t.string :contactEmail
+      t.boolean :useNickname
+      t.boolean :isAdmin
 
       t.timestamps
     end

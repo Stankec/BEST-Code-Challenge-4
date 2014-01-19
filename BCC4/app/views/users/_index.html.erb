@@ -21,13 +21,11 @@
 							        	:class => "btn btn-default" %>
 						</div>
 						<div style="float:left; margin-left:10px;">
-							<% if u.isDeleteable != false %>
-								<%= link_to '<i class="fa fa-trash"></i> Izbriši'.html_safe, 
-								        	user_path(u),
-								        	:method => "delete",
-								        	:confirm => "Jeste li sigurni da želite izbrisati korisnika #{u.nameFirst} #{u.nameLast}?",
-								        	:class => "btn btn-danger" %>
-							<% end %>
+							<%= link_to '<i class="fa fa-trash"></i> Izbriši'.html_safe, 
+							        	user_path(u),
+							        	:method => "delete",
+							        	:confirm => "Jeste li sigurni da želite izbrisati korisnika #{u.nameFirst} #{u.nameLast}?",
+							        	:class => "btn btn-danger" %>
 						</div>
 					<% end %>
 				</td>

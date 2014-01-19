@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   	protect_from_forgery with: :exception
 
   	# Helper methods
+  	helper_method :displayErrors
   	helper_method :flashDisplay
   	helper_method :currentUser
   	helper_method :authUser
@@ -16,6 +17,26 @@ class ApplicationController < ActionController::Base
   	#############################
   	### Helper Implementation ###
   	#############################
+
+  	def displayErrors(object)
+    	if object.errors.messages == nil
+    		return
+    	end
+    	if flash[:alert] == nil
+    		flash[:alert] = ""
+    	end
+    	object.errors.messages.each do |name, errors|
+    		error = name.to_s.titleize + ": "
+    		messages = ""
+    		errors.each do |message|
+    			if messages.length != 0
+    				messages += ", "
+    			end
+    			messages += message
+    		end
+    		flash[:alert] += "<br>" + error + messages
+    	end
+    end # displayErrors
 
 	def flashDisplay
   		response = ""

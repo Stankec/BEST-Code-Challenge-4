@@ -1,0 +1,61 @@
+<%= form_for movie do |f| %>
+
+	<div class="row">
+		<% if currentUser != nil && currentUser.isAdmin == true %>
+			<div class="col-md-12">
+				<label for="page_title">Options</label>
+				<div class="form-group">
+					<%= f.check_box :isHidden %>
+					<label for="page_title"> Hidden </label>
+				</div>
+			</div>
+		<% end %>
+
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="page_title">Title</label>
+				<%= f.text_field :title, 
+					:placeholder => "2001: A Space Odessy", 
+					:class => "form-control" %>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="page_slug">Year</label>
+				<%= f.text_field :year, 
+					:placeholder => "1968", 
+					:class => "form-control" %>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="page_tags">Runtime</label>
+				<%= f.text_field :runtime, 
+					:placeholder => "141", 
+					:class => "form-control" %>
+				<p class="help-block">minutes</p>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="page_tags">Plot</label>
+				<%= f.text_area :plot, 
+					:placeholder => "HAL goes mad...", 
+					:class => "form-control" %>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="page_tags">Awards</label>
+				<%= f.text_field :awards, 
+					:placeholder => "Won 1 Oscar. Another 12 wins & 6 nominations.", 
+					:class => "form-control" %>
+			</div>
+		</div>
+
+	</div>
+
+<% end %>

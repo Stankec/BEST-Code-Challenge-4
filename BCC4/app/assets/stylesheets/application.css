@@ -11,3 +11,201 @@
  *= require_self
  *= require_tree .
  */
+
+ @import url(http://fonts.googleapis.com/css?family=Josefin+Slab);
+
+ body {
+ 	padding-top: 40px;
+ 	background:
+		radial-gradient(black 15%, transparent 16%) 0 0,
+		radial-gradient(black 15%, transparent 16%) 8px 8px,
+		radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+		radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+	background-color:#282828;
+	background-size:16px 16px;
+ }
+
+ /* Helpers */
+ .nonJumpy {
+ 	overflow: hidden;
+ 	white-space: nowrap;
+ }
+ .navbar-movies .navbar-nav .searchDanger {
+ 	background-color: rgba(233, 41, 0, 1);
+ }
+ .navbar-movies .navbar-nav .searchDanger:hover {
+ 	background-color: rgba(255, 41, 0, 1);
+ }
+ .navbar-movies .navbar-nav .searchSucess {
+ 	background-color: rgba(110, 110, 110, 1);
+ }
+ .navbar-movies .navbar-nav .searchSucess:hover {
+ 	background-color: rgba(130, 130, 130, 1);
+ }
+
+  .navbar-movies .navbar-nav .searchDanger > a:hover,
+  .navbar-movies .navbar-nav .searchSucess > a:hover {
+ 	color: rgba(255, 255, 255, 1);
+ }
+ .fastLoginContainer {
+ 	padding: 8px;
+ 	min-width: 300px;
+ }
+ .navbar-movies .mainTitle {
+ 	font-family: 'Josefin Slab', serif;
+ 	font-size: 40px; !important
+ }
+
+ /* Text Fields */
+ .navbar-movies .movieSearchField {
+  	display: block;
+  	width: 100%;
+  	height: 34px;
+  	padding: 6px 12px;
+  	font-size: 14px;
+  	line-height: 1.428571429;
+  	color: #555555;
+  	vertical-align: middle;
+  	background-color: rgba(20, 19, 9, 0.6);
+  	border: 1px solid rgba(255,255,255,0.2);
+  	border-radius: 4px;
+  	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  	-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+ .navbar-movies .movieSearchField:focus {
+ 	color: rgba(240, 240, 240, 1);
+  	border-color: rgba(255,255,255,0.4);
+  	outline: 0;
+  	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+/* NAVBAR */
+.navbar-movies {
+  background-color: rgba(20, 19, 9, 0.8);
+  border-color: #e7e7e7;
+}
+.navbar-movies .navbar-brand {
+  	color: rgba(240, 240, 240, 1);
+}
+.navbar-movies .navbar-brand:hover,
+.navbar-movies .navbar-brand:focus {
+	color: rgba(255, 255, 255, 1);
+	text-shadow: 0px 0px 15px rgba(200, 200, 200, 1);
+  	background-color: transparent;
+  	animation: whiteGlow 1s;
+  	-webkit-animation: whiteGlow 1s;
+}
+@keyframes whiteGlow
+{
+	from {
+		color: rgba(240, 240, 240, 1);
+		text-shadow: 0px 0px 0px rgba(200, 200, 200, 1);
+	}
+	to {
+		color: rgba(255, 255, 255, 1);
+		text-shadow: 0px 0px 15px rgba(200, 200, 200, 1);
+	}
+}
+@-webkit-keyframes whiteGlow
+{
+	from {
+		color: rgba(240, 240, 240, 1);
+		text-shadow: 0px 0px 0px rgba(200, 200, 200, 1);
+	}
+	to {
+		color: rgba(255, 255, 255, 1);
+		text-shadow: 0px 0px 15px rgba(200, 200, 200, 1);
+	}
+}
+.navbar-movies .navbar-text {
+  color: rgba(220, 220, 220, 1);
+}
+.navbar-movies .navbar-nav > li:hover {
+  background-color: rgba(20, 19, 9, 0.2);
+}
+.navbar-movies .navbar-nav > li > a {
+  color: rgba(220, 220, 220, 1);
+}
+.navbar-movies .navbar-nav > li > a:hover,
+.navbar-movies .navbar-nav > li > a:focus {
+  color: rgba(250, 250, 250, 1);
+  background-color: transparent;
+}
+.navbar-movies .navbar-nav > .active > a,
+.navbar-movies .navbar-nav > .active > a:hover,
+.navbar-movies .navbar-nav > .active > a:focus {
+  color: #555555;
+  background-color: #e7e7e7;
+}
+.navbar-movies .navbar-nav > .disabled > a,
+.navbar-movies .navbar-nav > .disabled > a:hover,
+.navbar-movies .navbar-nav > .disabled > a:focus {
+  color: #cccccc;
+  background-color: transparent;
+}
+.navbar-movies .navbar-toggle {
+  border-color: #dddddd;
+}
+.navbar-movies .navbar-toggle:hover,
+.navbar-movies .navbar-toggle:focus {
+  background-color: #dddddd;
+}
+.navbar-movies .navbar-toggle .icon-bar {
+  background-color: #cccccc;
+}
+.navbar-movies .navbar-collapse,
+.navbar-movies .navbar-form {
+  border-color: #e6e6e6;
+}
+.navbar-movies .navbar-nav > .dropdown > a:hover .caret,
+.navbar-movies .navbar-nav > .dropdown > a:focus .caret {
+  border-top-color: #333333;
+  border-bottom-color: #333333;
+}
+.navbar-movies .navbar-nav > .open > a,
+.navbar-movies .navbar-nav > .open > a:hover,
+.navbar-movies .navbar-nav > .open > a:focus {
+  background-color: #e7e7e7;
+  color: #555555;
+}
+.navbar-movies .navbar-nav > .open > a .caret,
+.navbar-movies .navbar-nav > .open > a:hover .caret,
+.navbar-movies .navbar-nav > .open > a:focus .caret {
+  border-top-color: #555555;
+  border-bottom-color: #555555;
+}
+.navbar-movies .navbar-nav > .dropdown > a .caret {
+  border-top-color: #777777;
+  border-bottom-color: #777777;
+}
+@media (max-width: 767px) {
+  .navbar-movies .navbar-nav .open .dropdown-menu > li > a {
+    color: #777777;
+  }
+  .navbar-movies .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-movies .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #333333;
+    background-color: transparent;
+  }
+  .navbar-movies .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-movies .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-movies .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #555555;
+    background-color: #e7e7e7;
+  }
+  .navbar-movies .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-movies .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-movies .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+    color: #cccccc;
+    background-color: transparent;
+  }
+}
+.navbar-movies .navbar-link {
+  color: #777777;
+}
+.navbar-movies .navbar-link:hover {
+  color: #333333;
+}

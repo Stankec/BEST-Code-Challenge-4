@@ -11,6 +11,34 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+NProgress.configure({
+  	showSpinner: false,
+  	ease: 'ease',
+  	speed: 100
+});
+
+function toggleSearch(searchForm,searchButton,searchToggle,toggleTextBefore,toggleTextAfter,toggleButtonAddClass) {
+	if ( !($(searchForm).length) || !($(searchButton).length) || !($(searchToggle).length) ) return;
+	if ( $(searchForm).is(":visible") ) {
+		$(searchForm).hide("fast");
+		$(searchButton).hide("fast");
+		$(searchToggle).hide("fast", function() {
+			$(searchToggle).html(toggleTextBefore);
+			$(searchToggle).removeClass(toggleButtonAddClass);
+			$(searchToggle).show("fast");
+		});
+	} else {
+		$(searchForm).show("fast");
+		$(searchButton).show("fast");
+		$(searchToggle).hide("fast", function() {
+			$(searchToggle).html(toggleTextAfter);
+			$(searchToggle).addClass(toggleButtonAddClass);
+			$(searchToggle).show("fast");
+		});
+	}
+}

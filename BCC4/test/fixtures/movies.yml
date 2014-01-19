@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: MyString
+  year: 1
+  released: 2014-01-19
+  runtime: 1
+  plot: MyText
+  awards: MyText
+  poster: MyString
+
+two:
+  title: MyString
+  year: 1
+  released: 2014-01-19
+  runtime: 1
+  plot: MyText
+  awards: MyText
+  poster: MyString

@@ -1,0 +1,42 @@
+if (!$('#content-helper').length)
+{
+	$('body').append("<div id=\"content-helper\"></div>");
+}
+if (!$('#tempModal').length)
+{
+	$("#content-helper").html  (''+
+								'<div class="modal fade" id="tempModal" tabindex="-1" role="dialog" aria-labelledby="tempModal" aria-hidden="true">'+
+								  	'<div class="modal-dialog">'+
+								  	  	'<div class="modal-content">'+
+								  	  	  	'<div class="modal-header">'+
+								  	  	  	  	'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+								  	  	  	  	'<h4 class="modal-title" id="tempModalHeader">Modal title</h4>'+
+								  	  	  	'</div>'+
+								  	  	  	'<div class="modal-body" id="tempModalBody">'+
+								  	  	  	  '	<p>One fine body&hellip;</p>'+
+								  	  	  	'</div>'+
+								  	  	  	'<div class="modal-footer" id="tempModalFooter">'+
+								  	  	  	  	'<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+								  	  	  	'</div>'+
+								  	  	'</div>'+
+								  	'</div>'+
+								'</div>'+
+								'');
+	$('#tempModal').on('hidden', function () {
+		$('#tempModal').remove();
+	});
+}
+
+$('#tempModalHeader').html(	'New Movie');
+$('#tempModalBody').html(	'<%= j render :partial => "form", :locals => {:movie => @movie } %>' );
+$('#tempModalFooter').html(	'<button type="button" class="btn btn-default" data-dismiss="modal">'+
+								'<i class="icon-remove"></i> Cancle'+
+							'</button>'+
+							'<div style="float:right; margin-left:5px;">'+
+								'<%= link_to '<i class="icon-ok"></i> Save'.html_safe, "#", 
+									 :remote => true,
+									 :class => 'btn btn-primary', 
+									 :onclick => '$(".new_movie").submit()' %>'+
+							'</div>' );
+
+$('#tempModal').modal();
