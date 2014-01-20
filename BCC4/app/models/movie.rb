@@ -34,7 +34,7 @@ class Movie < ActiveRecord::Base
   			# Check fetced
   			if jsonObject["Title"]		== nil; jsonObject["Title"]			=  ""; end;
   			if jsonObject["Year"]		== nil; jsonObject["Year"]			=  ""; end;
-  			if jsonObject["Released"]	== nil; jsonObject["Released"]		=  "1 July 1901"; end;		
+  			if jsonObject["Released"]	== nil; jsonObject["Released"]		=  ""; end;		
   			if jsonObject["Runtime"]	== nil; jsonObject["Runtime"]		=  ""; end;		
   			if jsonObject["Plot"]		== nil; jsonObject["Plot"]			=  ""; end;
   			if jsonObject["Awards"]		== nil; jsonObject["Awards"]		=  ""; end;	
@@ -48,8 +48,8 @@ class Movie < ActiveRecord::Base
         	if jsonObject["Country"]	== nil; jsonObject["Country"]		=  ""; end;		
 
         	# Populate
-  			movie.title 	= jsonObject["Title"]
-  			if Movie.where(:title => jsonObject["Title"]).any?
+  			movie.title 	= title
+  			if Movie.where(:title => title).any?
   				next;
   			end
 
