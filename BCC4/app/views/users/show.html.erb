@@ -1,2 +1,75 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<div class="container">
+	<div class="well">
+		<div class="row">
+			<div class="col-md-2">
+				<img src="<%= @user.gravatarUrl(512) %>" style="max-width:100%; height:auto;" class ="img-circle" />
+			</div>
+			<div class="col-md-10">
+				<div style="padding:1%">
+					<% if @user.useNickname == true %>
+						<h1><%= @user.nameNickname %></h1>
+					<% else %>
+						<h1><%= @user.screenName %></h1>
+						<h3><%= @user.nameNickname %></h3>
+					<% end %>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Latest Movies</h2>
+			</div>
+			<div class="col-md-12">
+				<% @user.movies.find(:all, :order => "created_at desc", :limit => 5).reverse.each do |m| %>
+					<%= render :partial => "movies/preview", :locals => { :movie => m } %>
+				<% end %>
+			</div>
+		</div>
+		<div class="row">
+			<table class="table table-striped">
+				<tbody>	
+					<tr>
+						<td style="width:25%; vertical-align:middle;">
+							Total movies watched:
+						</td>
+						<td  style="width:50%; vertical-align:middle;">
+							<%= @user.movies.count %>
+						</td>
+						<td  style="width:25%;">
+							<div style="float:right; padding:2px;">
+								<%= link_to '<i class="fa fa-eye"></i> Show all'.html_safe, {:controller => "users", :action => "watchedMovies", :user => @user}, 
+											:class => 'btn btn-info' %>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="width:25%;">
+							Joined:
+						</td>
+						<td  colspan=2 style="width:50%;">
+							<%= @user.created_at.strftime("%Y / %B / %d") %>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row">
+			<% if currentUser != nil && ( currentUser == @user || currentUser.isAdmin == true ) %>
+				<div class="col-md-12 clearfix" style="margin-bottom:8px;">
+					<div style="float:right; padding:2px;">
+						<%= link_to '<i class="fa fa-edit"></i> Edit Information'.html_safe, edit_user_path(@user), 
+									:class => 'btn btn-primary' %>
+					</div>
+					<div style="float:right; padding:2px;">
+						<%= link_to '<i class="fa fa-times"></i> Close Account'.html_safe, 
+									{ :controller => "users", 
+									  :action => "closeAccount", 
+									  :user => @user },
+									:class => 'btn btn-danger',
+									:confirm => "Are you sure you want to close this account?" %>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>

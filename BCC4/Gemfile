@@ -37,3 +37,10 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
 
 # jQuery optimization for turbolinks
 gem 'jquery-turbolinks'
+
+# Tagging
+gem 'acts-as-taggable-on'
+
+# Paginate
+gem 'will_paginate', '~> 3.0'
+gem 'will_paginate-bootstrap'

@@ -1,0 +1,24 @@
+<% 
+	if (defined? styles).nil?
+		styles = ""
+	end
+	if (defined? classes).nil?
+		classes = ""
+	end
+	if (defined? goTo).nil?
+		goTo = true
+	end
+%>
+<div class="moviePreview <%= classes %>" 
+	 style="background-image:url(<%= movie.poster %>); background-size:cover; background-position:center; <%= styles %>" 
+	 <% if goTo %>onclick="Turbolinks.visit('<%= movie_path(movie) %>')"<% end %> >
+	<% if goTo %>
+		<div class="overlay">
+			<div class="clearfix"></div>
+			<center>	
+				<div style="margin-top:50%;"><%= movie.title %></div>
+			</center>
+			<div class="clearfix"></div>
+		</div>
+	<% end %>
+</div>

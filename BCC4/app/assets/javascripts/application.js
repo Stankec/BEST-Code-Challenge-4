@@ -16,6 +16,8 @@
 //= require turbolinks
 //= require_tree .
 
+Turbolinks.enableTransitionCache();
+
 NProgress.configure({
   	showSpinner: false,
   	ease: 'ease',

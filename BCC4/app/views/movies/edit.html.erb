@@ -1,2 +1,22 @@
-<h1>Movies#edit</h1>
-<p>Find me in app/views/movies/edit.html.erb</p>
+<div class="container">
+	<div class="col-md-6 col-md-offset-3">
+		<div class="well">
+			<h1>Edit Movie</h1>
+			<%= render :partial => "form", :locals => {:movie => @movie } %>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<%= link_to '<i class="fa fa-check"></i> Save'.html_safe, "#", 
+							:class => 'btn btn-primary btn-block', 
+							:onclick => '$(".edit_movie").submit()' %>
+			</div>
+			<div class="col-md-6">
+				<%= link_to '<i class="fa fa-trash-o"></i> Delete'.html_safe, movie_path(@movie), 
+							:class => 'btn btn-danger btn-block', 
+							:method => 'delete',
+							:confirm => 'Are you sure you want to delete this movie?' %>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clearfix"><br></div>

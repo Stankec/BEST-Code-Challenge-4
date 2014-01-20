@@ -1,2 +1,136 @@
-<h1>Movies#show</h1>
-<p>Find me in app/views/movies/show.html.erb</p>
+<div class="container movieShow">
+	<div class="row">
+		<div class="col-md-4">
+			<img src="<%= @movie.poster %>" class="moviePreview" style="width:100%; height:auto;" />
+		</div>
+		<div class="col-md-8">
+			<div class="col-md-12 clearfix">
+					<h1><%= @movie.title %></h1>
+			</div>
+			<div class="clearfix" style="margin-top:15px;"></div>
+			<div class="col-md-8">
+				<div class="plot">
+					<%= @movie.plot %>
+				</div>
+				<div class="awards">
+					<table class="table">
+						<thead>
+					 		<tr>
+					 			<td>Awards</td>
+					 			<td><%= @movie.awards %></td>
+					 		</tr>
+						</thead>
+					 	<tbody>
+					 		<tr>
+					 			<td>Release</td>
+					 			<td><%= @movie.released.strftime("%Y / %B / %d") %> (<%= @movie.year.to_s %>)</td>
+					 		</tr>
+					 		<tr>
+					 			<td>Runtime</td>
+					 			<td><%= @movie.runtime.to_s %> min</td>
+					 		</tr>
+					 	</tbody>
+					</table>
+				</div>
+				<div>
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs">
+					  	<li class="active"><a href="#movieCast" data-toggle="tab">Cast</a></li>
+					  	<li><a href="#movieCrew" data-toggle="tab">Crew</a></li>
+					  	<li><a href="#movieInfo" data-toggle="tab">Info</a></li>
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content">
+					  	<div class="tab-pane active" id="movieCast">
+					  		<% @movie.actor_list.each do |a| %>
+					  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagActor => a} %></span>
+					  		<% end %>
+					  	</div>
+					  	<div class="tab-pane" id="movieCrew">
+					  		<table class="table">
+								<thead>
+							 		<tr>
+							 			<td>Director</td>
+							 			<td>
+							 				<% @movie.director_list.each do |a| %>
+									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagDirector => a} %></span>
+									  		<% end %>
+							 			</td>
+							 		</tr>
+								</thead>
+							 	<tbody>
+							 		<tr>
+							 			<td>Writer</td>
+							 			<td>
+							 				<% @movie.writer_list.each do |a| %>
+									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagWriter => a} %></span>
+									  		<% end %>
+							 			</td>
+							 		</tr>
+							 	</tbody>
+							</table>
+					  	</div>
+					  	<div class="tab-pane" id="movieInfo">
+					  		<table class="table">
+								<thead>
+							 		<tr>
+							 			<td>Genre</td>
+							 			<td>
+							 				<% @movie.genre_list.each do |a| %>
+									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagGenre => a} %></span>
+									  		<% end %>
+							 			</td>
+							 		</tr>
+								</thead>
+							 	<tbody>
+							 		<tr>
+							 			<td>Language</td>
+							 			<td>
+							 				<% @movie.language_list.each do |a| %>
+									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagLanguage => a} %></span>
+									  		<% end %>
+							 			</td>
+							 		</tr>
+							 		<tr>
+							 			<td>Country</td>
+							 			<td>
+							 				<% @movie.country_list.each do |a| %>
+									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagCountry => a} %></span>
+									  		<% end %>
+							 			</td>
+							 		</tr>
+							 	</tbody>
+							</table>
+					  	</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<% if currentUser != nil && !currentUser.movies.include?(@movie) %>
+					<div style="padding:2px;">
+						<%= link_to '<i class="fa fa-eye"></i> Watched this!'.html_safe, "#", :class => 'btn btn-primary btn-block' %>
+					</div>
+				<% else %>
+					<div style="padding:2px;">
+						<%= link_to '<i class="fa fa-eye-slash"></i> Nope\' I didn\'t watch this...'.html_safe, "#", :class => 'btn btn-primary btn-block' %>
+					</div>
+				<% end %>
+				<div style="padding:2px;">
+					<%= link_to '<i class="fa fa-film"></i> View on IMDB'.html_safe, "http://www.imdb.com/title/" + @movie.imdbID, :class => 'btn btn-warning btn-block' %>
+				</div>
+				<% if currentUser != nil && currentUser.isAdmin == true %>
+					<div style="padding:2px;">
+						<%= link_to '<i class="fa fa-edit"></i> Edit'.html_safe, edit_movie_path(@movie), :class => 'btn btn-info btn-block' %>
+					</div>
+					<div style="padding:2px;">
+						<%= link_to '<i class="fa fa-trash-o"></i> Delete'.html_safe, movie_path(@movie), 
+									:method => "delete", 
+									:confirm => "Are you shur you want to delete \""+@movie.title+"\"? This will permanantly remove it from the database!",
+									:class => 'btn btn-danger btn-block' %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

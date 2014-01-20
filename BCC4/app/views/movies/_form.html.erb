@@ -45,13 +45,61 @@
 					:placeholder => "HAL goes mad...", 
 					:class => "form-control" %>
 			</div>
-		</div>
-
-		<div class="col-md-12">
 			<div class="form-group">
 				<label for="page_tags">Awards</label>
 				<%= f.text_field :awards, 
 					:placeholder => "Won 1 Oscar. Another 12 wins & 6 nominations.", 
+					:class => "form-control" %>
+			</div>
+			<div class="form-group">
+				<label for="page_tags">Poster URL</label>
+				<%= f.text_field :poster, 
+					:placeholder => "http://www.posters.com/my%20poster.jpg", 
+					:class => "form-control" %>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="page_tags">Actors</label>
+				<%= f.text_area :actor_list, 
+					:placeholder => "Keir Dullea, Gary Lockwood, William Sylvester", 
+					:class => "form-control" %>
+			</div>
+			<div class="form-group">
+				<label for="page_tags">Directors</label>
+				<%= f.text_area :director_list, 
+					:placeholder => "Stanley Kubrick", 
+					:class => "form-control" %>
+			</div>
+			<div class="form-group">
+				<label for="page_tags">Writers</label>
+				<%= f.text_area :writer_list, 
+					:placeholder => "Stanley Kubrick, Arthur C. Clarke", 
+					:class => "form-control" %>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="page_tags">Genres</label>
+				<%= f.text_area :genre_list, 
+					:placeholder => "Keir Dullea, Gary Lockwood, William Sylvester", 
+					:class => "form-control" %>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="page_tags">Languages</label>
+				<%= f.text_area :language_list, 
+					:placeholder => "Keir Dullea, Gary Lockwood, William Sylvester", 
+					:class => "form-control" %>
+			</div>
+			<div class="form-group">
+				<label for="page_tags">Country</label>
+				<%= f.text_area :country_list, 
+					:placeholder => "Stanley Kubrick", 
 					:class => "form-control" %>
 			</div>
 		</div>

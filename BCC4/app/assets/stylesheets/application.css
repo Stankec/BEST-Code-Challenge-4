@@ -15,7 +15,7 @@
  @import url(http://fonts.googleapis.com/css?family=Josefin+Slab);
 
  body {
- 	padding-top: 40px;
+ 	padding-top: 60px;
  	background:
 		radial-gradient(black 15%, transparent 16%) 0 0,
 		radial-gradient(black 15%, transparent 16%) 8px 8px,
@@ -42,9 +42,8 @@
  .navbar-movies .navbar-nav .searchSucess:hover {
  	background-color: rgba(130, 130, 130, 1);
  }
-
-  .navbar-movies .navbar-nav .searchDanger > a:hover,
-  .navbar-movies .navbar-nav .searchSucess > a:hover {
+ .navbar-movies .navbar-nav .searchDanger > a:hover,
+ .navbar-movies .navbar-nav .searchSucess > a:hover {
  	color: rgba(255, 255, 255, 1);
  }
  .fastLoginContainer {
@@ -54,6 +53,103 @@
  .navbar-movies .mainTitle {
  	font-family: 'Josefin Slab', serif;
  	font-size: 40px; !important
+ }
+ .moviePreview {
+  width: 18%; 
+  height: 290px; 
+  margin: 1%;
+  float: left;
+  border-radius: 6px;
+  box-shadow: 0px 2px 8px rgba(80,80,80,0.6);
+  border:        1px solid rgba(200,200,200,1);
+  border-top:    1px solid rgba(250,250,250,1);
+  border-bottom: 1px solid rgba(160,160,160,1);
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  cursor: pointer;
+ }
+ .moviePreview > .overlay {
+    padding: 1%;
+    margin-top: 0px;
+    color: rgba(255, 255, 255, 0);
+ }
+ .moviePreview:hover > .overlay {
+    border-radius:6px;
+    width:100%;
+    height:100%;
+    background-color:rgba(40,40,40,0.6);
+    color: rgba(255, 255, 255, 0.7);
+    animation: overlayFade 1s;
+    -webkit-animation: overlayFade 1s;
+ }
+ @keyframes overlayFade
+ {
+   from {
+     color: rgba(255, 255, 255, 0);
+     text-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
+     background-color:rgba(40,40,40,0);
+   }
+   to {
+     color: rgba(255, 255, 255, 0.7);
+     text-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
+     background-color:rgba(40,40,40,0.6);
+   }
+ }
+ @-webkit-keyframes overlayFade
+ {
+   from {
+     color: rgba(255, 255, 255, 0);
+     text-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
+     background-color:rgba(40,40,40,0);
+   }
+   to {
+     color: rgba(255, 255, 255, 0.7);
+     text-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
+     background-color:rgba(40,40,40,0.6);
+   }
+ }
+ .movieShow {
+  color: rgba(198,198,198,1);
+ }
+ .movieShow .moviePreview {
+  cursor: default;
+ }
+ .movieShow h1,
+ .movieShow h3,
+ .movieShow h5 {
+  cursor: default;
+  float: left;
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
+ }
+ .movieShow h1 {
+  color: rgba(190,190,190,1);
+ }
+ .movieShow h3 {
+  margin-top: 30px;
+  margin-left: 10px;
+  color: rgba(146,146,146,1);
+ }
+ .movieShow h5 {
+  margin-top: 40px;
+  margin-left: 10px;
+  color: rgba(100,100,100,1);
+ }
+ .movieShow .nav-tabs > li > a {
+  color: rgba(190,190,190,1);
+ }
+ .movieShow .nav-tabs > li > a:hover,
+ .movieShow .nav-tabs > li.active > a {
+  color: rgba(35,35,35,1);
+ }
+ .movieShow .label {
+  line-height: 2;
+ }
+ .movieShow .label-default,
+ .movieShow .label-default a {
+  background-color: rgba(255,255,255,1);
+  font-size: 12pt;
+  color: rgba(35,35,35,1);
  }
 
  /* Text Fields */

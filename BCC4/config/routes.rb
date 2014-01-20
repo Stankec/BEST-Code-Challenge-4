@@ -19,6 +19,7 @@ BCC4::Application.routes.draw do
 	get "users/edit"
 	get "users/new"
 	get "users/watchedMovies"
+	get "users/closeAccount"
 	# Sessions
 	get "login" => "sessions#new", :as => "login"
   	get "logout" => "sessions#destroy", :as => "logout"

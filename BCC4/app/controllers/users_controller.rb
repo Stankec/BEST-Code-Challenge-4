@@ -18,7 +18,11 @@ class UsersController < ApplicationController
 
     def watchedMovies
         @user = User.find_by id: params[:id]
-    end # edit
+    end # watchedMovies
+
+    def closeAccount
+        @user = User.find_by id: params[:id]
+    end # closeAccount
 	
   	##################
   	### Rails CRUD ###
@@ -26,8 +30,8 @@ class UsersController < ApplicationController
 
     def user_params
         params.require(:user).permit(	:nameFirst, :nameLast, :nameNickname, 
-        								:loginUsername, :password, :password_confirmation, 
-        								:contactEmail, :useNickname, {:role_ids => []}	)
+        								              :loginUsername, :password, :password_confirmation, 
+        								              :contactEmail, :useNickname	)
     end
 	
   	def create

@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 	#####################
     ### Relationships ###
     #####################
-	has_and_belongs_to_many :roles
+    has_and_belongs_to_many :movies
 
 	##################
     ### Encription ###
@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
 	end # generateToken
 
 	def screenName
-		if self.useNickname != true && self.nameNickname != nil && self.nameNickname.length != 0
+		if self.useNickname == true && self.nameNickname != nil && self.nameNickname.length != 0
 			return self.nameNickname
 		else
 			return self.nameFirst + " " + self.nameLast

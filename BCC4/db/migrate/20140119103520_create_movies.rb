@@ -8,8 +8,9 @@ class CreateMovies < ActiveRecord::Migration
       t.text    :plot
       t.text    :awards
       t.string  :poster
+      t.string  :imdbID
       t.boolean :isHidden
-      t.boolean :isAdmin
+      t.boolean :isDummy
 
       t.timestamps
     end
