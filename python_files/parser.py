@@ -3,14 +3,6 @@ import codecs
 import copy
 from bayn import Network
 
-
-
-def tanimoto(a,b):
-	mul = a*b
-	return mul / (a*a + b*b - mul)
-
-
-
 movies = codecs.open(sys.argv[1],'r',encoding='mac_roman')
 prefs = open(sys.argv[2],'r')
 watched = open(sys.argv[3],'r')

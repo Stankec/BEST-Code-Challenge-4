@@ -1,6 +1,10 @@
 from edge import Edge
 from edge import normalize
+"""
+The Node object, responsible for calculating the probability of it's
+neighbors via the connecting edges.
 
+"""
 class Node(object):
 	def __init__(self,id,value,network_reference = None):
 		self.value = value
@@ -19,6 +23,15 @@ class Node(object):
 	def set_like_probability(self, table):
 		self.like_probability = table
 
+	"""
+	For every connecting edge do the following: get the node which is 
+	connected to the edge, check if the node is a watched node, or
+	if the value has already been calculated. Then call the 
+	calculate_probability function od the connecting edge, and
+	store the result in the adjacent node, as well as the
+	hash map.
+
+	"""
 	def calculate_like_probabilities(self, temp_map, watched_list):
 		for k in self.edges.keys():
 			e = self.edges[k]
