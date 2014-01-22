@@ -35,6 +35,9 @@ te tu vrijednost koristimo kao šansu da korisnik voli film B, i njome množimo 
 
 Još se pojavljuje problem dvosmjernosti. Ako pogledamo što redci i stupci u tablicama zapravo znače uočavamo da ako transponiramo tablicu dobivamo obrnute ovisnosti, što je metoda koja se primjenjuje u algoritmu eliminacije varijabli prilikom rješavanja klasičnih Bayesovih mreža. Međutim, tu se pojavljuje problem da nakon množenja zbroj vrijednosti u matrici 1x2 nije uvijek nužno 1.0 što bi kao vjerojatnosni odnos trebala biti. Zato se radi normalizacija vrijednosti nakon svakog množenja, da bi osigurali koherentnost sustava. Ovaj dio metode je direktno uzet iz algoritma za eliminaciju varijabli prilikom računanja mreža kada se zna posljedica, a ispituje premisa. 
 ![Transponiranost](http://i.imgur.com/VIrWIBl.png)  
-Do ovog trenutka je riješenje bilo koje mreže savršeno usklađeno s drugim algoritmima, ali se mogu riješavati samo grafovi kod kojih niti jedan čvor nema više od jednog ulaza. Taj problem je eliminiran koristeći superpoziciju filmova za koje se zna korisnička preferenca. Prvo se riješi mreža za prvi od filmova za kojeg se korisnik izjasnio, pa drugi i tako dalje do zadnjeg. Zatim se izračuna nova vjerojatnost za svaki čvor u mreži koji ima više od jednog unosa. Ovaj dio čini ukupni algoritam nepreciznim, ali je greška dovoljno malena da se može zanemariti.
+Do ovog trenutka je riješenje bilo koje mreže savršeno usklađeno s drugim algoritmima, ali se mogu riješavati samo grafovi kod kojih niti jedan čvor nema više od jednog ulaza. Taj problem je eliminiran koristeći superpoziciju filmova za koje se zna korisnička preferenca. Prvo se riješi mreža za prvi od filmova za kojeg se korisnik izjasnio, pa drugi i tako dalje do zadnjeg. Zatim se izračuna nova vjerojatnost za svaki čvor u mreži koji ima više od jednog unosa. Ovaj dio čini ukupni algoritam nepreciznim, ali je greška dovoljno malena da se može zanemariti.  
 ![Dva unosa](http://i.imgur.com/ptWPahT.png)  
-![Izračun]()
+![Izračun](http://i.imgur.com/r7oMMX9.png)  
+Međutim ova vrijednost očitno nije u zbroju 1, te se mora normalizirati što nam u konačnici daje: 
+![Finalno rješenje](http://i.imgur.com/gRbshnW.png)  
+Ova metoda izračuna daje grešku, ali nedovoljno veliku da pomakne rezultate. 
