@@ -8,6 +8,8 @@
 	
 	  	<script type="text/javascript">
 	  		$(document).ready(function(){
+	  			// Errors
+	  			displayError("<%= j raw(flashDisplay) %>");
 	  			// Search
 	  			$('#searchFind').click(function(e){
 	  				e.preventDefault();
@@ -23,6 +25,18 @@
 	  								"searchDanger");
 	  			});
 	  			if (<% if params[:search]; %>true<% else %>false<% end %>) $('#searchToggle').click();
+	  			// Pagination
+				if ($('.pagination').length && true) {
+				  	$(window).scroll(function() {
+				    	var url;
+				    	url = $('.pagination').find('a[rel=next]').attr('href');
+				    	if (url && $(window).scrollTop() > $(document).height() - $(window).height() - 100) {
+				      		$('.pagination').html("<i class=\"fa fa-spinner fa-spin fa-large\"></i> Fetching more...");
+				      		$.getScript(url);
+				    	}
+				  	});
+				  	return $(window).scroll();
+				}
 	  		});
 	  	</script>
 	</head>
@@ -51,23 +65,10 @@
 		  	  		  	  	  		<%= link_to '<i class="fa fa-user"></i> My Profile'.html_safe, 
 			              						user_path(currentUser) %>
 			              		</li>
-			              		<li class="divider"></li>
-		  	  		  	  	  	<li>
-		  	  		  	  	  		<%= link_to '<i class="fa fa-eye"></i> Watched Movies'.html_safe, 
-			              						user_path(currentUser) %>
-			              		</li>
-		  	  		  	  	  	<li>
-		  	  		  	  	  		<%= link_to '<i class="fa fa-star"></i> Recommended Movies'.html_safe, 
-			              						user_path(currentUser) %>
-		  	  		  	  	  	</li>
 		  	  		  	  	  	<li class="divider"></li>
 		  	  		  	  	  	<li>
 		  	  		  	  	  		<%= link_to '<i class="fa fa-plus"></i> Add Movie'.html_safe, 
 			              						:controller => "movies", :action => "fromRemote", :remote => true %>
-			              		</li>
-			              		<li>
-			              			<%= link_to '<i class="fa fa-warning"></i> Report Movie'.html_safe, 
-			              						user_path(currentUser) %>
 			              		</li>
 		  	  		  	  	  	<li class="divider"></li>
 		  	  		  	  	  	<li>

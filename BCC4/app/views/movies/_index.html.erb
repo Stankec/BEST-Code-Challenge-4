@@ -1,0 +1,7 @@
+<% movies.in_groups_of(5, false) do |array| %>
+	<div class="row">
+		<% array.each do |m| %>
+			<%= render :partial => "movies/preview", :locals => { :movie => m } %>
+		<% end %>
+	</div>
+<% end %>

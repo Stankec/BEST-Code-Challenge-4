@@ -1,0 +1,15 @@
+<%= form_for rating do |f| %>
+	<center>
+		<span class="rating">
+	        <span class="star" id="5star"></span>
+	        <span class="star" id="4star"></span>
+	        <span class="star" id="3star"></span>
+	        <span class="star" id="2star"></span>
+	        <span class="star active" id="1star"></span>
+	    </span>
+	</center>
+	<div>
+		<%= f.hidden_field :rating %>
+		<%= f.hidden_field :movie_id %>
+	</div>
+<% end %>

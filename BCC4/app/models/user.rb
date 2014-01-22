@@ -3,7 +3,8 @@ class User < ActiveRecord::Base
 	#####################
     ### Relationships ###
     #####################
-    has_and_belongs_to_many :movies
+    has_many :ratings
+    has_many :movies, :through => :ratings
 
 	##################
     ### Encription ###

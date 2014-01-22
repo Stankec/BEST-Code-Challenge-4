@@ -1,10 +1,14 @@
 # encoding: UTF-8
 class MoviesController < ApplicationController
-	require 'uri'
-	require 'open-uri'
-	require 'json'
+	require 'will_paginate/array'
 
   	def index
+  		if !params[:page]; params[:page] = 1; end;
+  		@movie = Movie.find(:all, :order => "released desc")
+  		if params[:search]
+  		  	@movie = Movie.search(params[:search])
+    	end
+  		@movie = @movie.paginate(:page => params[:page].to_i, :per_page => 10)
   	end # index
 	
   	def show
@@ -24,10 +28,30 @@ class MoviesController < ApplicationController
 	
   	def edit
   		@movie = Movie.find_by id: params[:id]
-  		if @movie == nil && currentUser != nil && currentUser.isAdmin == true
+  		if @movie == nil
+  			flash[:notice] = "That movie does not exist"
+  			redirect_to movies_path
+  		end
+  		if currentUser != nil && currentUser.isAdmin != true
   			render404
   		end
   	end # edit
+
+  	def dummies
+  		@movie = Movie.where(:isDummy => true)
+  		@movie += Movie.where(:year => 0)
+  		@movie += Movie.where(:runtime => 0)
+  		if @movie == nil
+  			flash[:notice] = "That movie does not exist"
+  			redirect_to movies_path
+  		end
+  		if currentUser != nil && currentUser.isAdmin != true
+  			render404
+  		end
+  		if !params[:page]; params[:page] = 1; end;
+  		@movie = @movie.uniq.paginate(:page => params[:page].to_i, :per_page => 10)
+  		render "index"
+  	end
 
   	##################
   	### Rails CRUD ###
@@ -46,39 +70,15 @@ class MoviesController < ApplicationController
 
   		if params["remoteTitle"]
   			@movie = Movie.new
-  			queryURL = "http://www.omdbapi.com/?t=" + params["remoteTitle"]
-  			if params["remoteYear"] && params["remoteYear"].length != 0
-  				queryURL += "&y=" + params["remoteYear"]
+  			if !@movie.fetchMovieInfo(params["remoteTitle"], params["remoteYear"])
+  				render "fromRemote"
   			end
-  			jsonObject = JSON.parse(open(URI.escape(queryURL)).read)
-  			if jsonObject == nil; render "fromRemote"; return; end;
-
-  			@movie.title 	= jsonObject["Title"]
-  			@movie.year 	= jsonObject["Year"].to_i
-  			@movie.released = Date.strptime(jsonObject["Released"], "%d %B %Y")
-  			@movie.runtime 	= jsonObject["Runtime"].to_i
-  			@movie.plot 	= jsonObject["Plot"]
-  			@movie.awards 	= jsonObject["Awards"]
-        	@movie.poster   = jsonObject["Poster"]
-        	@movie.imdbID   = jsonObject["imdbID"]
-        	while jsonObject["Actors"].gsub!(/\([^()]*\)/,""); end;
-        	while jsonObject["Director"].gsub!(/\([^()]*\)/,""); end;
-        	while jsonObject["Writer"].gsub!(/\([^()]*\)/,""); end;
-        	while jsonObject["Genre"].gsub!(/\([^()]*\)/,""); end;
-        	while jsonObject["Language"].gsub!(/\([^()]*\)/,""); end;
-        	while jsonObject["Country"].gsub!(/\([^()]*\)/,""); end;
-        	@movie.actor_list 		= jsonObject["Actors"]
-        	@movie.director_list 	= jsonObject["Director"]
-        	@movie.writer_list 		= jsonObject["Writer"]
-        	@movie.genre_list 		= jsonObject["Genre"]
-        	@movie.language_list 	= jsonObject["Language"]
-        	@movie.country_list 	= jsonObject["Country"]
   		else
   			@movie = Movie.new(movie_params)
   		end
 
   		if @movie.save
-  			redirect_to movies_path()
+  			redirect_to movie_path(@movie)
   		else
   			displayErrors(@movie)
   			render "new"
@@ -88,7 +88,7 @@ class MoviesController < ApplicationController
   	def update
   		@movie = Movie.find_by id: params[:id]
   		if @movie.update_attributes(movie_params)
-  			redirect_to movies_path()
+  			redirect_to movie_path(@movie)
   		else
   			displayErrors(@movie)
   			render "edit"

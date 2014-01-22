@@ -4,13 +4,18 @@
 			<h1>Edit Movie</h1>
 			<%= render :partial => "form", :locals => {:movie => @movie } %>
 		</div>
+		<div class="row" style="color:white;" id="moviePreviewButtonText">
+		</div>
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<%= link_to '<i class="fa fa-check"></i> Save'.html_safe, "#", 
 							:class => 'btn btn-primary btn-block', 
 							:onclick => '$(".edit_movie").submit()' %>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
+				<button class="btn btn-info btn-block" id="moviePreviewButton"><i class="fa fa-globe"></i> Autopopulate</button>
+			</div>
+			<div class="col-md-4">
 				<%= link_to '<i class="fa fa-trash-o"></i> Delete'.html_safe, movie_path(@movie), 
 							:class => 'btn btn-danger btn-block', 
 							:method => 'delete',
@@ -20,3 +25,47 @@
 	</div>
 </div>
 <div class="clearfix"><br></div>
+
+<script type="text/javascript">
+	$('#moviePreviewButton').click(function(e){
+		var queryString = "http://www.omdbapi.com/?t=";
+		if ($('#movie_title').length && $('#movie_title').val().length != 0)
+			queryString += encodeURIComponent($('#movie_title').val());
+		if ($('#movie_year').length && $('#movie_year').val().length != 0)
+			queryString += "&y=" + encodeURIComponent($('#movie_year').val());
+		$('#moviePreviewButtonText').html('<i class="fa fa-spinner fa-spin fa-2x"></i>');
+		$.ajax({
+		  	url: queryString,
+		  	dataType: 'json',
+		  	success: function(result){
+		  	  	//alert("token recieved: " + result.token);
+		  	},
+		  	error: function(request, textStatus, errorThrown) {
+		  	  	$('#moviePreviewButtonText').html('<font style="color:red">An error has occured!</font>');
+		  	},
+		  	complete: function(request, textStatus) { //for additional info
+		  	  	var json = $.parseJSON(request.responseText);
+		  	  	if (json.Response !== "True" || json.Type !== "movie") 
+		  	  	{
+		  	  		$('#moviePreviewButtonText').html('<font style="color:red">That movie does not exist!</font>');
+		  	  		return;
+		  	  	}
+				$('#moviePreview').show("fast");
+		  		$('#moviePreviewButtonText').html('');
+		  		$('#moviePreviewSave').show("fast");
+				if (json.length == 0) return;
+		  	  	$.each(json, function(key,val) {
+		  	  		// Normal
+		  	  		if ($('#movie_'+key.toLowerCase()).length)
+				  		$('#movie_'+key.toLowerCase()).val(val);
+				  	// Lists
+				  	if ($('#movie_'+key.toLowerCase()+'_list').length)
+				  		$('#movie_'+key.toLowerCase()+'_list').val(val);
+				  	// Exceptions
+				  	if (key.toLowerCase() === "actors")
+				  		$('#movie_actor_list').val(val);
+				});
+		  	}
+		});
+	});
+</script>

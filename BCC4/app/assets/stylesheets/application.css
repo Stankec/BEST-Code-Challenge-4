@@ -26,6 +26,36 @@
  }
 
  /* Helpers */
+ .pagenationtext {
+  color: rgb(200,200,200);
+  font-size: 16pt;
+ }
+ .rating {
+    unicode-bidi:bidi-override;
+    direction:rtl;
+    font-size:30px
+  }
+ .rating span.star { 
+    font-family:FontAwesome;
+    font-weight:normal;
+    font-style:normal;
+    display:inline-block
+  }
+ .rating span.star:hover {
+    cursor:pointer
+ }
+ .rating span.star:before {
+  content:"\f006";
+  padding-right:5px;
+  color:#999
+ }
+ .rating span.star:hover:before,
+ .rating span.star:hover~span.star:before,
+ .rating span.star.active,
+ .rating span.star.active:before {
+    content:"\f005";
+    color:#398ee2;
+  }
  .nonJumpy {
  	overflow: hidden;
  	white-space: nowrap;

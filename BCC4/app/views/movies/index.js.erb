@@ -1,0 +1,9 @@
+$('.pages').append('<%= j render :partial => "index", :locals => { :movies => @movie } %>');
+<% if @movie.next_page %>
+  	$('.pagination').replaceWith('<%= j will_paginate @movie,
+									  	renderer: BootstrapPagination::Rails,
+									  	previous_label: "<i class='fa fa-chevron-left'></i>".html_safe, 
+									  	next_label: "<i class='fa fa-chevron-right'></i>".html_safe %>');
+<% else %>
+  	$('.pagination').remove();
+<% end %>

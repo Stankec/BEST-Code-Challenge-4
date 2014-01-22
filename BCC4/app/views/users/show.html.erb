@@ -20,8 +20,8 @@
 				<h2>Latest Movies</h2>
 			</div>
 			<div class="col-md-12">
-				<% @user.movies.find(:all, :order => "created_at desc", :limit => 5).reverse.each do |m| %>
-					<%= render :partial => "movies/preview", :locals => { :movie => m } %>
+				<% @user.ratings.find(:all, :order => "created_at desc", :limit => 5).each do |r| %>
+					<%= render :partial => "movies/preview", :locals => { :movie => r.movie } %>
 				<% end %>
 			</div>
 		</div>

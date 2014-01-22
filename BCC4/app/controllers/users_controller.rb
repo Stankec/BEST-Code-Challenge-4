@@ -17,7 +17,10 @@ class UsersController < ApplicationController
   	end # edit
 
     def watchedMovies
-        @user = User.find_by id: params[:id]
+        @user = User.find_by id: params[:user]
+        if !params[:page]; params[:page] = 1; end;
+        @movie = @user.movies.paginate(:page => params[:page].to_i, :per_page => 10)
+        return
     end # watchedMovies
 
     def closeAccount

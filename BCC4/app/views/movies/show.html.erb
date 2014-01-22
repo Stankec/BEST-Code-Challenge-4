@@ -44,7 +44,7 @@
 					<div class="tab-content">
 					  	<div class="tab-pane active" id="movieCast">
 					  		<% @movie.actor_list.each do |a| %>
-					  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagActor => a} %></span>
+					  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :search => a} %></span>
 					  		<% end %>
 					  	</div>
 					  	<div class="tab-pane" id="movieCrew">
@@ -54,7 +54,7 @@
 							 			<td>Director</td>
 							 			<td>
 							 				<% @movie.director_list.each do |a| %>
-									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagDirector => a} %></span>
+									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :search => a} %></span>
 									  		<% end %>
 							 			</td>
 							 		</tr>
@@ -64,7 +64,7 @@
 							 			<td>Writer</td>
 							 			<td>
 							 				<% @movie.writer_list.each do |a| %>
-									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagWriter => a} %></span>
+									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :search => a} %></span>
 									  		<% end %>
 							 			</td>
 							 		</tr>
@@ -78,7 +78,7 @@
 							 			<td>Genre</td>
 							 			<td>
 							 				<% @movie.genre_list.each do |a| %>
-									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagGenre => a} %></span>
+									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :search => a} %></span>
 									  		<% end %>
 							 			</td>
 							 		</tr>
@@ -88,7 +88,7 @@
 							 			<td>Language</td>
 							 			<td>
 							 				<% @movie.language_list.each do |a| %>
-									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagLanguage => a} %></span>
+									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :search => a} %></span>
 									  		<% end %>
 							 			</td>
 							 		</tr>
@@ -96,7 +96,7 @@
 							 			<td>Country</td>
 							 			<td>
 							 				<% @movie.country_list.each do |a| %>
-									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :tagCountry => a} %></span>
+									  			<span class="label label-default"><%= link_to a, {:controller => "movies", :action => "index", :search => a} %></span>
 									  		<% end %>
 							 			</td>
 							 		</tr>
@@ -105,16 +105,54 @@
 					  	</div>
 					</div>
 				</div>
+				<div>
+					<div>
+						<h2>Recomended</h2>
+					</div>
+					<div>
+						<% @movie.recommended(nil,10,currentUser).each do |movie| %>
+							<%= render :partial => "movies/preview", :locals => { :movie => movie } %>
+						<% end %>
+					</div>
+				</div>
 			</div>
+			<!-- Buttons -->
 			<div class="col-md-4">
-				<% if currentUser != nil && !currentUser.movies.include?(@movie) %>
-					<div style="padding:2px;">
-						<%= link_to '<i class="fa fa-eye"></i> Watched this!'.html_safe, "#", :class => 'btn btn-primary btn-block' %>
-					</div>
-				<% else %>
-					<div style="padding:2px;">
-						<%= link_to '<i class="fa fa-eye-slash"></i> Nope\' I didn\'t watch this...'.html_safe, "#", :class => 'btn btn-primary btn-block' %>
-					</div>
+				<% if currentUser != nil %>
+					<% if currentUser != nil && !currentUser.movies.include?(@movie) %>
+						<div style="padding:2px;">
+							<%= link_to '<i class="fa fa-eye"></i> Watched this!'.html_safe, {:controller => "ratings", :action => "new", :forMovie => @movie}, 
+																							 :class => 'btn btn-primary btn-block', :remote => true %>
+						</div>
+					<% else %>
+						<div style="padding:2px;">
+							<div>You gave this move:</div>
+							<div>
+								<center>
+									<% 
+										rating = currentUser.ratings.where(:movie => @movie).first
+										if rating != nil
+											rating = rating.rating
+										else
+											rating = 0
+										end
+									%>
+									<% for i in 1..5 %>
+										<% if i <= rating %>
+											<i class="fa fa-star fa-2x"></i>
+										<% else %>
+											<i class="fa fa-star-o fa-2x"></i>
+										<% end %>
+									<% end %>
+								</center>
+							</div>
+						</div>
+						<div style="padding:2px;">
+							<%= link_to '<i class="fa fa-eye-slash"></i> Nope\' I didn\'t watch this...'.html_safe, rating_path(currentUser.ratings.where(:movie => @movie).first), 
+																													:class => 'btn btn-primary btn-block', :method => "delete",
+																													:confirm => "This will delete the rating you gave this movie. Are you sure you want to continue?" %>
+						</div>
+					<% end %>
 				<% end %>
 				<div style="padding:2px;">
 					<%= link_to '<i class="fa fa-film"></i> View on IMDB'.html_safe, "http://www.imdb.com/title/" + @movie.imdbID, :class => 'btn btn-warning btn-block' %>

@@ -1,4 +1,6 @@
 BCC4::Application.routes.draw do
+	# Ratings
+  	get "ratings/new"
 	# Movies
   	get "movies/index"
   	get "movies/show"
@@ -6,6 +8,7 @@ BCC4::Application.routes.draw do
   	get "movies/edit"
   	get "movies/recommended"
   	get "movies/fromRemote"
+  	get "movies/dummies"
 	# Pages
 	get "pages/index"
 	get "pages/show"
@@ -24,11 +27,12 @@ BCC4::Application.routes.draw do
 	get "login" => "sessions#new", :as => "login"
   	get "logout" => "sessions#destroy", :as => "logout"
   	# Root
-  	root :to => "pages#main"
+  	root :to => "movies#index"
 
   	# Resources
   	resources :sessions
   	resources :users
   	resources :pages
   	resources :movies
+  	resources :ratings
 end

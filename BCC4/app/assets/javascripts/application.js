@@ -44,3 +44,25 @@ function toggleSearch(searchForm,searchButton,searchToggle,toggleTextBefore,togg
 		});
 	}
 }
+
+function displayError(errorMessage)
+{
+	if(errorMessage.length == 0) return;
+
+	if(!$('#flash').length)
+	{
+		$('body').prepend(	'<div id="flash" class="alert fade in" style="position:absolute; top:70px; left:2%; width:30%; z-index:1041; display:none;">'+
+								'<button type="button" class="close" data-dismiss="alert">&times;</button>'+
+								'<div id="flashmsg"></div>'+
+							'</div>');
+	}
+
+	$('#flashmsg').html(errorMessage);
+
+	$('#flash').removeClass("alert-success").removeClass("alert-danger").addClass("alert-danger");;
+
+	if ($('#flash_notice').length) 	$('#flash').removeClass("alert-danger").addClass("alert-success");
+	if ($('#flash_alert').length) 	$('#flash').addClass("alert-danger");
+
+	$('#flash').show();
+}

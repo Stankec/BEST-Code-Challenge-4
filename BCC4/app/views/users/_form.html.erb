@@ -3,15 +3,15 @@
 	<div class="row">
 		<div class="page new settings col-md-6">
 			<div class="form-group">
-				<label for="page_title">Ime</label>
+				<label for="page_title">First Name</label>
 				<%= f.text_field :nameFirst, 
-					:placeholder => "Ivan", 
+					:placeholder => "John", 
 					:class => "form-control" %>
 			</div>
 			<div class="form-group">
-				<label for="page_slug">Prezime</label>
+				<label for="page_slug">Last Name</label>
 				<%= f.text_field :nameLast, 
-					:placeholder => "Horvat", 
+					:placeholder => "Doe", 
 					:class => "form-control" %>
 			</div>
 			<div class="form-group">
@@ -19,39 +19,35 @@
 				<%= f.text_field :contactEmail, 
 					:placeholder => "email@host.com", 
 					:class => "form-control" %>
+				<p class="help-block">Note: This email will be used to fetch your <a href="http://gravatar.com">Gravatar</a></p>
 			</div>
-			<% if currentUser != nil && currentUser.canEdit("Users") %>
+			<% if currentUser != nil && currentUser.isAdmin == true %>
 				<div class="form-group">
-					<label for="page_tags" id="roleAnchor">Uloge</label>
-					<% if user.isDeleteable != false %>
-						<div class="roleSelect">
-							<%= f.collection_check_boxes :role_ids, Role.all, :id, :name, :class=>"form-control" %>
-						</div>
-					<% else %>
-						<br> Neizmjenjivo
-					<% end %>
-					
+					<label for="page_tags">Admin</label>
+					<%= f.check_box :isAdmin %>
 				</div>
 			<% end %>
 		</div>
 		<div class="col-md-5">
 			<div class="form-group">
-				<label for="page_title">Korisničko ime</label>
+				<label for="page_title">Username</label>
 				<%= f.text_field :loginUsername, 
-					:placeholder => "Korisničko ime", 
+					:placeholder => "myUsername86", 
 					:class => "form-control" %>
 			</div>
 			<div class="form-group">
-				<label for="page_title">Zaporka</label>
+				<label for="page_title">Password</label>
 				<%= f.password_field :password, 
+					:placeholder => "secretPassWORD1234",
 					:class => "form-control" %>
-				<p class="help-block">Napomena: Ako NE želite mjenjati zaporku ostavite ovo polje prazno.</p>
+				<p class="help-block">Note: If you don't want to change the password leave this field blank.</p>
 			</div>
 			<div class="form-group">
-				<label for="page_title">Potvrda Zaporke</label>
-				<%= f.password_field :password_confirmation, 
+				<label for="page_title">Password Confirm</label>
+				<%= f.password_field :password_confirmation,
+					:placeholder => "secretPassWORD1234",
 					:class => "form-control" %>
-				<p class="help-block">Ponovite zaporku da budemo sigurni da ste unjeli točnu.</p>
+				<p class="help-block">Please, repeat your password in this field.</p>
 			</div>	
 		</div>
 	</div>

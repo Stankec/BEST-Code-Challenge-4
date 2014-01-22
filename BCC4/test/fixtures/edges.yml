@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  nodeA_id: 
+  nodeB_id: 
+  relevanceFactor: 1.5
+  matrix00: 1.5
+  matrix01: 1.5
+  matrix10: 1.5
+  matrix11: 1.5
+
+two:
+  nodeA_id: 
+  nodeB_id: 
+  relevanceFactor: 1.5
+  matrix00: 1.5
+  matrix01: 1.5
+  matrix10: 1.5
+  matrix11: 1.5

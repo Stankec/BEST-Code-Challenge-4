@@ -30,10 +30,10 @@ if (!$('#tempModal').length)
 $('#tempModalHeader').html(	'New Movie');
 $('#tempModalBody').html(	'<%= j render :partial => "remoteAdd", :locals => {:movie => Movie.new } %>' );
 $('#tempModalFooter').html(	'<button type="button" class="btn btn-default" data-dismiss="modal">'+
-								'<i class="icon-remove"></i> Cancel'+
+								'<i class="fa fa-times"></i> Cancel'+
 							'</button>'+
 							'<div style="float:right; margin-left:5px; display:none;" id="moviePreviewSave">'+
-								'<%= link_to '<i class="icon-ok"></i> Save'.html_safe, "#", 
+								'<%= link_to '<i class="fa fa-check"></i> Save'.html_safe, "#", 
 									 :remote => true,
 									 :class => 'btn btn-primary', 
 									 :onclick => '$(".new_movie").submit()' %>'+
@@ -67,7 +67,7 @@ $('#moviePreviewButton').click(function(e){
 	  	},
 	  	complete: function(request, textStatus) { //for additional info
 	  	  	var json = $.parseJSON(request.responseText);
-	  	  	if (json.Response !== "True") 
+	  	  	if (json.Response !== "True" || json.Type !== "movie") 
 	  	  	{
 	  	  		$('#moviePreviewButtonText').html('<font style="color:red">That movie does not exist!</font>');
 	  	  		return;

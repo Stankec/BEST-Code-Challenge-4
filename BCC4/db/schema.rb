@@ -11,7 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140120102233) do
+ActiveRecord::Schema.define(version: 20140121221034) do
+
+  create_table "edges", force: true do |t|
+    t.integer  "nodeA_id"
+    t.integer  "nodeB_id"
+    t.float    "relevanceFactor"
+    t.float    "matrix00"
+    t.float    "matrix01"
+    t.float    "matrix10"
+    t.float    "matrix11"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "edges", ["nodeA_id"], name: "index_edges_on_nodeA_id"
+  add_index "edges", ["nodeB_id"], name: "index_edges_on_nodeB_id"
 
   create_table "movies", force: true do |t|
     t.string   "title"
@@ -32,6 +47,17 @@ ActiveRecord::Schema.define(version: 20140120102233) do
     t.integer "user_id"
     t.integer "movie_id"
   end
+
+  create_table "ratings", force: true do |t|
+    t.integer  "movie_id"
+    t.integer  "user_id"
+    t.integer  "rating"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ratings", ["movie_id"], name: "index_ratings_on_movie_id"
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id"
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
