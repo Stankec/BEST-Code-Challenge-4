@@ -6,7 +6,7 @@ BCC4::Application.routes.draw do
   	get "movies/show"
   	get "movies/new"
   	get "movies/edit"
-  	get "movies/recommended"
+  	get "movies/recommend"
   	get "movies/fromRemote"
   	get "movies/dummies"
 	# Pages

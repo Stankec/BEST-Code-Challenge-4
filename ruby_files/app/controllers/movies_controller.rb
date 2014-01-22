@@ -16,6 +16,14 @@ class MoviesController < ApplicationController
   		if @movie == nil
   			render404
   		end
+      if currentUser != nil
+        if session[:visitedMovies] == nil
+          session[:visitedMovies] = []
+        end
+        if !session[:visitedMovies].include? @movie.id
+        	session[:visitedMovies] << @movie.id
+        end
+      end
   	end # show
 	
   	def new
@@ -52,6 +60,9 @@ class MoviesController < ApplicationController
   		@movie = @movie.uniq.paginate(:page => params[:page].to_i, :per_page => 10)
   		render "index"
   	end
+
+    def recommend
+    end
 
   	##################
   	### Rails CRUD ###

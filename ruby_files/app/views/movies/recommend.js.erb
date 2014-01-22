@@ -1,0 +1,1 @@
+$('.recommendations').html('<%= j render :partial => "_recomendations", :locals => { :movie => Movie.where(:id => params[:movieID]) } %>');

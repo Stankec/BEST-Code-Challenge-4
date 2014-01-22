@@ -1,0 +1,28 @@
+<% if true %>
+	<% 
+		if movie == nil && currentUser != nil
+			movie = currentUser.movies.sample
+		elsif movie == nil && currentUser == nil
+			movie = Movie.all.sample
+		end
+				
+
+
+		recomended = nil
+		if currentUser != nil
+			recomended = movie.recommended(nil,10,currentUser)
+		elsif session[:visitedMovies] != nil
+			recomended = movie.recommended(Movie.where("id IN (?)",session[:visitedMovies]),10,nil)
+		end
+	%>
+	<% if recomended != nil && recomended.count != 0 %>
+		<div>
+			<h2>Recomended</h2>
+		</div>
+		<div>
+			<% recomended.each do |movie| %>
+				<%= render :partial => "movies/preview", :locals => { :movie => movie } %>
+			<% end %>
+		</div>
+	<% end %>
+<% end %>
