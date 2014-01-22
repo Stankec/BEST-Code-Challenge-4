@@ -46,6 +46,7 @@ for line in watched:
 	n.set_node_opinion(m, [ (r/5.0), 1 - (r/5.0)])
 
 n.calculate_edge_correlations_tanimoto()
+print(n.edge_count)
 n.solve()
 
 

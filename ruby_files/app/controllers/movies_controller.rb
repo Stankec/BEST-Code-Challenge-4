@@ -97,6 +97,12 @@ class MoviesController < ApplicationController
 	
   	def destroy
   		@movie = Movie.find_by id: params[:id]
+  		Edge.where("nodeA_id = ? OR nodeB_id = ?", @movie.id, @movie.id).find_each do |edge|
+      		edge.destroy
+      	end
+      	Rating.where(:movie => @movie).find_each do |rating|
+      		rating.destroy
+      	end
   		if @movie.destroy
   			redirect_to movies_path
   		else

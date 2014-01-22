@@ -41,10 +41,16 @@ class Movie < ActiveRecord::Base
 			movies = user.movies
 		end
 		allPotentialNodes = {}
+		if movies == nil
+			return []
+		end
+		puts "Entering watched movies loop"
 		movies.each do |movie|
 			potentialNodes = movie.likePropability(user, movies)
 			potentialNodes = cull(potentialNodes)
 			nodesToRemove = []
+			puts "Entering potential nodes loop for " + movie.title
+			puts "Potential nodes: " + potentialNodes.to_s
 			while (potentialNodes.keys.count < numRecommendation) && (potentialNodes.keys.count < (Movie.all.count - movies.count))
 				potentialNodeIDs = potentialNodes.keys
 				nodesToRemove.each do |nodeID|
@@ -68,12 +74,13 @@ class Movie < ActiveRecord::Base
 				else
 					v0 = allPotentialNodes[key] * potentialNodes[key]
 					v1 = (1 - allPotentialNodes[key]) * (1 - potentialNodes[key])
-					allPotentialNodes[key] = Edge.mNorm(v0, v1)[0]
+					allPotentialNodes[key] = mNorm(v0, v1)[0]
 				end
 			end
 		end
-		counter = 0
+		counter = 1
 		result = []
+		puts "Picking top " + numRecommendation.to_s
 		allPotentialNodes.sort_by {|key, value| value}.each do |idProp|
 			result << idProp[0]
 			if counter >= numRecommendation
@@ -96,11 +103,11 @@ class Movie < ActiveRecord::Base
 		else
 			rating = 5
 		end
-		l0 = rating / 5
+		l0 =  rating.to_f / 5.0
 		l1 = 1 - l0
 		#s0 = l0
 		#s1 = l1
-		Edge.where("nodeA_id = ? OR nodeB_id = ?", self.id, self.id).find_each do |edge|
+		Edge.where("nodeA_id = ? OR nodeB_id = ?", self.id, self.id).each do |edge|
 			otherNode = edge.nodeA
 			if otherNode == self
 				otherNode = edge.nodeB
@@ -186,18 +193,77 @@ class Movie < ActiveRecord::Base
 		end
 	end # importFromCSVWithIntegritiFix
 
-	def self.trainNetworkWithCSV(path, every=1)
+	def self.trainNetworkWithCSV(path)
 		puts "######################"
 		puts "### Adding Ratings ###"
 		puts "######################"
 
-		counter = 0
-		test = {}
 		CSV.foreach(path, :encoding => 'MacRoman') do |row|
-			user = row[0].to_i
+			user = row[0]
 			node = row[1].to_i
 			weight = row[2].to_i
+
+			if User.where(:nameFirst => "user" + user.to_s).any?
+				user = User.where(:nameFirst => "user" + user).first
+			else
+				givenID = user
+				puts "Creating new user: user" + user
+				user = User.new
+				user.nameFirst = "user" + givenID
+				user.nameLast = ""
+				user.loginUsername = user.nameFirst
+				user.password = user.nameFirst
+				user.contactEmail = user.nameFirst + "@users.com"
+				user.isAdmin = false
+				user.save
+			end
+
+			if Rating.where("user_id = ? AND movie_id = ?", user.id, node).any?
+				puts "Skipping node " + node.to_s + " for " + user.nameFirst
+				next
+			else
+				movie = Movie.where(:id => node)
+				if movie.any?
+					movie = movie.first
+				else
+					puts "Skipping node " + node.to_s + " for " + user.nameFirst + " (Node doesn't exist)"
+					next
+				end
+				rating = Rating.new
+				rating.movie = movie
+				rating.user = user
+				rating.rating = weight
+				rating.save
+				puts "User \""+user.nameFirst+"\" rated the movie \""+movie.title+"\" with a "+weight.to_s+" raiting" 
+
+
+				user.movies.each do |watchedMovie|
+					if watchedMovie == movie
+						puts "Avoid recursion!"
+						next
+					end
+					if Edge.where("(nodeA_id = ? AND nodeB_id = ?) OR (nodeA_id = ? AND nodeB_id = ?)", watchedMovie.id, movie.id, movie.id, watchedMovie.id).any?
+						puts "Edge already exists!"
+						next
+					end
+					edge = Edge.new
+					edge.nodeA = watchedMovie
+					edge.nodeB = movie
+					edge.save
+				end
+			end
 		end
+
+		puts "##############################"
+		puts "### Calculating Statistics ###"
+		puts "##############################"
+
+		Edge.all.find_each do |edge|
+			edge.calcTanimoto
+		end
+
+
+		puts " === DONE ==="
 	end # trainNetworkWithCSV
 
 	def self.importMoviesFromCSV(path)
@@ -394,4 +460,21 @@ class Movie < ActiveRecord::Base
 
 		return outputFile
 	end # checkImportIntegrity
+
+
+	#############
+	### Maths ###
+	#############
+	def mNorm(a0, a1)
+		if a0 + a1 == 1
+			return [a0, a1]
+		end
+		if (a0 + a1).abs < 0.001
+			return [a0, a1]
+		end
+		k = 1 / (a0 + a1)
+		a0 = a0 * k
+		a1 = a1 * k
+		return [a0, a1]
+	end # mNor
 end

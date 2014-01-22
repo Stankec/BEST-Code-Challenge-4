@@ -33,8 +33,9 @@ class RatingsController < ApplicationController
       		edge = Edge.new
       		edge.nodeA = movie
       		edge.nodeB = @rating.movie
-      		edge.relevanceFactor = 1
+      		edge.relevanceFactor = 0.0
       		edge.save
+      		edge.calcTanimoto
       	end
 
   		if @rating.save

@@ -59,6 +59,9 @@ class UsersController < ApplicationController
 	
   	def destroy
   		@user = User.find_by id: params[:id]
+      	Rating.where(:user => @user).find_each do |rating|
+      		rating.destroy
+      	end
   		if @user.destroy
   			redirect_to users_path
   		else

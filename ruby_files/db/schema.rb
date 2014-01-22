@@ -43,11 +43,6 @@ ActiveRecord::Schema.define(version: 20140121221034) do
     t.datetime "updated_at"
   end
 
-  create_table "movies_users", force: true do |t|
-    t.integer "user_id"
-    t.integer "movie_id"
-  end
-
   create_table "ratings", force: true do |t|
     t.integer  "movie_id"
     t.integer  "user_id"

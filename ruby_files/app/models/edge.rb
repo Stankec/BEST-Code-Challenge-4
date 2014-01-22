@@ -1,10 +1,13 @@
 class Edge < ActiveRecord::Base
+	require 'thread'
+	require 'thwait'
+
 	belongs_to :nodeA, :class_name => "Movie"
 	belongs_to :nodeB, :class_name => "Movie"
 
 	def tanimotoCorrelation(ratingA, ratingB)
-		mul = ratingA * ratingB
-		return mul * ( (ratingA * ratingA) + (ratingB*ratingB) - mul)
+		mul = ratingA.to_f * ratingB.to_f
+		return mul / ( (ratingA * ratingA).to_f + (ratingB*ratingB).to_f - mul)
 	end # tanimotoCorrelation
 
 	def mMul(a0, a1, b00, b01, b10, b11)
@@ -29,34 +32,80 @@ class Edge < ActiveRecord::Base
 		return [a0, a1]
 	end # mNor
 
-	def self.calcTanimoto(movie, user)
-		v0 = 1
-		v1 = 1
+	def calcTanimoto()
+		v0 = 1.0
+		v1 = 1.0
 
-		rating = Rating.where("movie_id = ? AND user_id = ?", movie.id, user.id)
-		if rating.any?
-			rating = rating.first
+		tuples = {}
+		User.all.each do |user|
+			ratings = user.ratings.where("movie_id = ? OR movie_id = ?", self.nodeA.id, self.nodeB.id)
+			if ratings == nil || ratings.count != 2
+				next
+			end
+			tuples[user.id] = ratings
 		end
-		ratings = Rating.where("movie_id != ? AND movie_id = ?", movie.id, user.id)
 
 		mx = nil
-		ratings.find_each do |r|
-			tc = tanimotoCorrelation(r.rating, rating.rating)
+		tuples.keys.each do |key|
+			tc = tanimotoCorrelation(tuples[key].first.rating, tuples[key].second.rating)
 			v0 = v0 * tc
 			mx = mNorm(v0, 1 - v0)
 			v0 = mx[0]
 		end
-		v1 = mx[1]
+		if mx == nil
+			return
+		end
+			v1 = mx[1]
 
-		self.relevanceFactor = 1 - ( 1 / ratings.count )
-		self.matrix00 = v0
-		self.matrix01 = 1 - v0
+		self.relevanceFactor = 1.0 - ( 1.0 / tuples.keys.count ).to_f
+		self.matrix00 = v0.to_f
+		self.matrix01 = 1.0 - v0
 		#self.matrix10 = v1
 		#self.matrix11 = 1 - v1
 		self.save
 	end # calcTanimoto
 
-	def self.calcPropability(a0, a1)
+	def self.threadedTanimoto(numThreads)
+		threads = []
+		blockLen = (Edge.all.count/numThreads)+1
+		lowestID = Edge.all.order(:id).first.id
+
+		for i in 1..numThreads
+			puts "Creating thread " + i.to_s + " starting@: " + lowestID.to_s + " ending@: " + (lowestID+blockLen).to_s
+			threads << Thread.new {
+				Edge.where("id >= ? AND id <= ?", lowestID, lowestID+blockLen).each do |edge|
+					puts "=================" + Thread.current.object_id.to_s + " calculating edge: " + edge.id.to_s
+					edge.calcTanimoto
+				end
+				return true
+			}
+			lowestID += blockLen
+		end
+
+		puts "Waiting for threads..."
+		ThreadsWait.all_waits(*threads)
+		puts " === DONE ==="
+	end # threadedTanimoto
+
+	def calcRelevance()
+		tuples = {}
+		User.all.each do |user|
+			ratings = user.ratings.where("movie_id = ? OR movie_id = ?", self.nodeA.id, self.nodeB.id)
+			if ratings == nil || ratings.count != 2
+				next
+			end
+			tuples[user.id] = ratings
+		end
+
+		self.relevanceFactor = 1.0 - ( 1.0 / tuples.keys.count ).to_f
+		self.save
+	end # calcRelevance
+
+	def calcPropability(a0, a1)
+		if self.matrix00 == nil || self.matrix01 == nil
+			puts " ### ERROR: edge has propability matrix NIL ### "
+			return [0.0, 0.0] 
+		end
 		return mMul(a0, a1, self.matrix00, self.matrix01, self.matrix01, self.matrix00)
 	end # calculatePropability
 end

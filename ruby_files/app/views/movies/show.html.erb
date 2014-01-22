@@ -105,16 +105,6 @@
 					  	</div>
 					</div>
 				</div>
-				<div>
-					<div>
-						<h2>Recomended</h2>
-					</div>
-					<div>
-						<% @movie.recommended(nil,10,currentUser).each do |movie| %>
-							<%= render :partial => "movies/preview", :locals => { :movie => movie } %>
-						<% end %>
-					</div>
-				</div>
 			</div>
 			<!-- Buttons -->
 			<div class="col-md-4">
@@ -171,4 +161,14 @@
 			</div>
 		</div>
 	</div>
+	<div class="row clearfix">
+					<div>
+						<h2>Recomended</h2>
+					</div>
+					<div>
+						<% @movie.recommended(nil,10,currentUser).each do |movie| %>
+							<%= render :partial => "movies/preview", :locals => { :movie => movie } %>
+						<% end %>
+					</div>
+				</div>
 </div>
