@@ -41,3 +41,9 @@ Do ovog trenutka je riješenje bilo koje mreže savršeno usklađeno s drugim al
 Međutim ova vrijednost očitno nije u zbroju 1, te se mora normalizirati što nam u konačnici daje: 
 ![Finalno rješenje](http://i.imgur.com/gRbshnW.png)  
 Ova metoda izračuna daje grešku, ali nedovoljno veliku da pomakne rezultate. 
+
+##Kako se računaju vrijednosti zapisane u rubovima
+Za izračun vrijednosti tablice u rubovima koristimo Tanimotovu udaljenost, odnosno koeficijent. Svaki rub pamti sve ocjene koje su korisnici dali filmovima koje povezuje u uređenim parovima (A,B). Iteriramo po tim parovima te računamo vrijednost koeficijenta za cijeli rub, te ih zatim zapisujemo u tablicu vjerojatnosti. 
+
+##Logičke preinake algoritma
+Gore opisani algoritam funkcionira i računa mreže, međutim javlja se problem korisnika. Naime postoje korisnici koji imaju čudan ukus u filmovima. Npr. ocjene Pocahontas i Apocalypto s istom ocjenom jer vole indijance. Kako ne želimo izložiti premladu djecu Melu Gibsonu, moramo pomjeriti izračun filma za neki koeficijent koji nam govori koliko zbilja trebamo slušati taj rub, i tablicu zapisanu u njemu. Izabrana je formula ![formula](http://i.imgur.com/Oqlrb9x.png) jer za vrijednost 1 vraća 0, dok se za vrijednosti iznad 9 dovoljno približava 1 da taj koeficijent postaje nebitan. Time smanjujemo utjecaj korisnika koji gledaju nepoznate ili nepopularne filmove i svojim odabirima utječu na cijelu mrežu. Kako je jedina metrika za izračun preferenci ocjena koju korisnik daje, neupitno je da će kvalitetni filmovi različitih žanrova na kraju imati jake veze. Kralj lavova i Građanin Kane zajedničko imaju samo činjenicu da su hvaljeni filmovi, no kako je to jedina relevantna stvar za ovaj zadatak, nakon dovoljno velikog broja ocjena sustav će sigurno davati takvu preporuku korisniku. 
